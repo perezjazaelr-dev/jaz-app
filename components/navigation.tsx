@@ -20,7 +20,7 @@ export function Navigation() {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Ensure this matches your main page path. usually "/"
+  // The main page where all sections exist
   const SECTIONS_PATH = "/"
 
   useEffect(() => {
@@ -31,141 +31,66 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : ""
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "unset"
+    }
   }, [mobileOpen])
 
-  // Helper function to handle the actual scrolling calculation
-  const smoothScrollTo = (id: string) => {
+  const scrollToElement = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      const headerOffset = 80 // Height of your fixed navbar
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.scrollY - headerOffset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      })
-    } else {
-      console.warn(`Element with id "${id}" not found. Check your page sections!`)
+      // scrollIntoView with "smooth" behavior uses the browser's native smooth scrolling.
+      // It will automatically respect the "scroll-mt-20" classes we added to your sections,
+      // ensuring the title is not hidden behind the navbar.
+      element.scrollIntoView({ behavior: "smooth" })
     }
   }
 
   const navigateToSection = async (href: string) => {
-    setMobileOpen(false) // Close mobile menu if open
+    setMobileOpen(false) // Close mobile menu
 
-    // Normalize dashboard/home clicks
+    // 1. Handle "Home" or "Dashboard" links
     if (href === "/" || href === "#" || href === "#dashboard") {
       if (pathname !== SECTIONS_PATH) {
-        try {
-          await router.push(SECTIONS_PATH)
-        } catch (err) {
-          console.error("Navigation push error:", err)
-        }
-      }
-      // Wait a bit then scroll to top or dashboard
-      setTimeout(() => {
-        if (href === "#dashboard") smoothScrollTo("dashboard")
-        else window.scrollTo({ top: 0, behavior: "smooth" })
-      }, 120)
-      return
-    }
-
-    // If the href is a full route (starts with /), just navigate there
-    if (href.startsWith("/")) {
-      const dest = href
-      const id = dest.replace(/^\/+/, "").split("/")[0] // derive a section id from the route
-
-      // If we're already on the exact route — scroll to the id or top
-      if (pathname === dest) {
-        if (id) {
-          setTimeout(() => smoothScrollTo(id), 80)
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" })
-        }
-      } else if (pathname === SECTIONS_PATH) {
-        // Special case: we're on the home AllSection page — update the URL without triggering a route transition
-        try {
-          window.history.pushState({}, "", dest)
-        } catch (e) {
-          console.debug("history.pushState failed, falling back to router.push", e)
-          await router.push(dest)
-        }
-
-        // Scroll to the section immediately and highlight
-        if (id) {
-          setTimeout(() => smoothScrollTo(id), 80)
-          const el = document.getElementById(id)
-          if (el instanceof HTMLElement) {
-            el.classList.add("ring-4", "ring-primary", "ring-opacity-40")
-            setTimeout(() => el.classList.remove("ring-4", "ring-primary", "ring-opacity-40"), 900)
-          }
-        }
+        await router.push(SECTIONS_PATH)
+        // Tiny delay to allow React to render the new page before scrolling
+        setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100)
       } else {
-        // Default: navigate to the route and poll for the element
-        await router.push(dest)
-
-        if (id) {
-          const maxWait2 = 2000
-          const interval2 = 100
-          let waited2 = 0
-          const poll2 = setInterval(() => {
-            const el = document.getElementById(id)
-            if (el instanceof HTMLElement) {
-              clearInterval(poll2)
-              smoothScrollTo(id)
-              el.classList.add("ring-4", "ring-primary", "ring-opacity-40")
-              setTimeout(() => el.classList.remove("ring-4", "ring-primary", "ring-opacity-40"), 900)
-            } else if ((waited2 += interval2) >= maxWait2) {
-              clearInterval(poll2)
-              smoothScrollTo(id)
-            }
-          }, interval2)
-        }
+        window.scrollTo({ top: 0, behavior: "smooth" })
       }
-
       return
     }
 
-    // Backward compatibility: handle hashes if present (shouldn't be needed now)
-    const selector = href.startsWith("#") ? href : `#${href.replace(/^\//, "")}`
-    const id = selector.replace("#", "")
+    // 2. Extract the target Section ID from the href
+    // e.g. "/about" -> "about", "#about" -> "about"
+    let targetId = href.replace(/^\//, "").replace("#", "")
 
+    if (!targetId) return
+
+    // 3. Navigate and Scroll
     if (pathname === SECTIONS_PATH) {
-      try {
-        if (typeof window !== "undefined") window.location.hash = selector
-      } catch (err) {
-        console.debug("Could not set location.hash:", err)
-      }
-
-      smoothScrollTo(id)
-      return
+      // If we are already on the home page, just scroll to the section
+      scrollToElement(targetId)
+    } else {
+      // If we are on a different page, go to home first
+      await router.push(SECTIONS_PATH)
+      
+      // Poll for the section to exist in the DOM, then scroll
+      const checkExist = setInterval(() => {
+        const element = document.getElementById(targetId)
+        if (element) {
+          scrollToElement(targetId)
+          clearInterval(checkExist)
+        }
+      }, 100)
+      
+      // Stop polling after 2 seconds to avoid infinite loops
+      setTimeout(() => clearInterval(checkExist), 2000)
     }
-
-    try {
-      await router.push(`${SECTIONS_PATH}${selector}`)
-      if (typeof window !== "undefined") window.location.hash = selector
-    } catch (err) {
-      console.error("Navigation push error:", err)
-    }
-
-    // Poll for element (max 2s)
-    const maxWait = 2000
-    const interval = 100
-    let waited = 0
-    const poll = setInterval(() => {
-      const el = document.getElementById(id)
-      if (el instanceof HTMLElement) {
-        clearInterval(poll)
-        smoothScrollTo(id)
-        el.classList.add("ring-4", "ring-primary", "ring-opacity-40")
-        setTimeout(() => el.classList.remove("ring-4", "ring-primary", "ring-opacity-40"), 900)
-      } else if ((waited += interval) >= maxWait) {
-        clearInterval(poll)
-        smoothScrollTo(id)
-      }
-    }, interval)
   }
 
   return (
@@ -176,7 +101,7 @@ export function Navigation() {
     >
       <div className="container mx-auto px-4 py-5 md:py-6">
         <div className="grid grid-cols-3 items-center">
-          {/* Left: Brand */}
+          {/* Brand */}
           <div className="flex items-center">
             <button
               onClick={() => navigateToSection("/")}
@@ -186,14 +111,14 @@ export function Navigation() {
             </button>
           </div>
 
-          {/* Center: Nav items (Desktop) */}
+          {/* Desktop Navigation */}
           <div className="flex justify-center">
             <div className="hidden md:flex items-center gap-6">
               {navItems.map((item) => (
                 <button
                   key={item.href}
                   onClick={() => navigateToSection(item.href)}
-                  className="w-30 text-sm md:text-base font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
+                  className="w-25 text-sm md:text-base font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1"
                 >
                   {item.label}
                 </button>
@@ -201,11 +126,11 @@ export function Navigation() {
             </div>
           </div>
 
-          {/* Right: Controls */}
+          {/* Right Side: Theme Toggle & Mobile Menu */}
           <div className="flex items-center justify-end gap-4">
             <ThemeToggle />
 
-            {/* Mobile menu button */}
+            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <button
                 onClick={() => setMobileOpen(true)}
@@ -218,7 +143,7 @@ export function Navigation() {
           </div>
         </div>
 
-        {/* Mobile overlay menu */}
+        {/* Mobile Menu Overlay */}
         <div
           aria-hidden={!mobileOpen}
           className={`fixed inset-0 z-40 md:hidden ${mobileOpen ? "pointer-events-auto" : "pointer-events-none"}`}
@@ -231,7 +156,7 @@ export function Navigation() {
             onClick={() => setMobileOpen(false)}
           />
 
-          {/* Menu Content */}
+          {/* Menu Items */}
           <div
             className={`relative z-50 flex flex-col items-center justify-center h-full transition-opacity ${
               mobileOpen ? "opacity-100" : "opacity-0"
@@ -245,12 +170,12 @@ export function Navigation() {
               <X className="w-6 h-6" />
             </button>
 
-            <nav className="space-y-6 text-center flex justify-center items-center flex-col">
+            <nav className="space-y-6 text-center flex flex-col items-center">
               {navItems.map((item) => (
                 <button
                   key={item.href}
                   onClick={() => navigateToSection(item.href)}
-                  className="gap-4 text-2xl font-regular text-foreground text-center"
+                  className="text-2xl font-regular text-foreground hover:text-primary transition-colors"
                 >
                   {item.label}
                 </button>
