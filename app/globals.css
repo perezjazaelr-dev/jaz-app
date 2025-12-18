@@ -132,3 +132,48 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Make react-github-calendar responsive and remove horizontal overflow */
+.react-activity-calendar,
+.react-activity-calendar * {
+  box-sizing: border-box;
+}
+.react-activity-calendar {
+  max-width: 100%;
+  width: 100%;
+}
+.react-activity-calendar svg {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+/* Prevent internal nav/scroll controls from showing and force the graph to fit the container */
+.calendar-fit {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.calendar-fit .react-activity-calendar,
+.calendar-fit .react-activity-calendar > div {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.calendar-fit .react-activity-calendar svg {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* Hide any nav buttons or scrollbars the calendar may render */
+.calendar-fit .react-activity-calendar button,
+.calendar-fit .react-activity-calendar .react-activity-calendar-nav {
+  display: none !important;
+}
+
+/* Ensure internal scroll containers don't overflow */
+.calendar-fit .react-activity-calendar .react-activity-calendar-graph,
+.calendar-fit .react-activity-calendar .react-activity-calendar-graph > div {
+  overflow: hidden !important;
+}
