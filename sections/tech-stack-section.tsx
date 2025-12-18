@@ -25,7 +25,7 @@ export function TechStackSection() {
             {categories.map((category) => (
               <Reveal key={category.title} direction="up" stagger={0.06}>
                 <Card className="border-2">
-                  <CardContent className="p-6">
+                  <CardContent className="p-6 h-75">
                     <h3 className="text-xl font-semibold text-foreground mb-4">{category.title}</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-2 gap-3">
                       {category.items.map((tech) => (

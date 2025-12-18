@@ -18,6 +18,7 @@ import {
   projects,
   experience,
 } from "@/data/portfolio-data";
+import { useTheme } from "@/context/theme-context";
 import {
   Mail,
   Github,
@@ -44,6 +45,12 @@ export function DashboardHero() {
   });
   const githubUsername = personalInfo.github.split("/").pop() || "";
   const githubStats = useGitHubStats(githubUsername);
+
+  const { theme } = useTheme();
+  const avatarSrc =
+    theme === "dark"
+      ? personalInfo.avatarDark ?? personalInfo.avatar
+      : personalInfo.avatarLight ?? personalInfo.avatar;
 
   // Show only the last 4 months in the Dashboard contribution calendar
   const fourMonthsAgo = new Date();
@@ -76,43 +83,74 @@ export function DashboardHero() {
   };
 
   return (
-    <div className="min-h-screen bg-muted/30 pt-16">
+    <div id="dashboard" className="min-h-screen bg-muted/30 pt-16">
       <div className="max-w-300 mx-auto px-4 py-6 space-y-4">
         {/* Main Profile Card */}
         <Card className="overflow-hidden relative">
           {/* Profile Content placed FIRST to be behind */}
-<div className="pt-20 md:pt-48 px-6 pb-6"> 
-    {/* pt-20 on small screens, pt-48 on larger to match banner height - reduced so header can overlap */}
+          <div className="pt-20 md:pt-48 px-6 pb-6">
+            {/* pt-20 on small screens, pt-48 on larger to match banner height - reduced so header can overlap */}
 
             {/* Mobile compact header (LinkedIn-like) - visible only on small screens */}
             <div className="md:hidden bg-card/80 rounded-lg p-3 mt-10 mb-4 relative z-20">
               <div className="flex items-center gap-3">
-                <div className="w-16 h-16 rounded-full border-2 border-background bg-blue-500 flex items-center justify-center text-2xl font-bold text-primary-foreground">
-                  {personalInfo.name.charAt(0)}
-                </div>
+                {personalInfo.avatar ? (
+                  <img
+                    src={avatarSrc}
+                    alt={`${personalInfo.name} avatar`}
+                    className="w-16 h-16 rounded-full border-2 border-background object-cover scale-200"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full border-2 border-background bg-blue-500 flex items-center justify-center text-2xl font-bold text-primary-foreground">
+                    {personalInfo.name.charAt(0)}
+                  </div>
+                )}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <h1 className="text-lg font-semibold truncate">{personalInfo.name}</h1>
+                    <h1 className="text-lg font-semibold truncate">
+                      {personalInfo.name}
+                    </h1>
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-dashed text-xs text-primary">
                       <ShieldCheck className="w-3 h-3" />
-                      <span className="hidden sm:inline">Add verification badge</span>
+                      <span className="hidden sm:inline">
+                        Add verification badge
+                      </span>
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground truncate">{personalInfo.title}</p>
+                  <p className="text-sm text-muted-foreground truncate">
+                    {personalInfo.title}
+                  </p>
                   {personalInfo.education && (
-                    <p className="text-sm text-muted-foreground mt-1 truncate">{personalInfo.education}</p>
+                    <p className="text-sm text-muted-foreground mt-1 truncate">
+                      {personalInfo.education}
+                    </p>
                   )}
-                  <p className="text-xs text-muted-foreground mt-1">Mandaluyong City, Metromanila <a href={`mailto:${personalInfo.email}`} className="underline">Contact info</a></p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Mandaluyong City, Metromanila{" "}
+                    <a
+                      href={`mailto:${personalInfo.email}`}
+                      className="underline"
+                    >
+                      Contact info
+                    </a>
+                  </p>
                 </div>
               </div>
-
             </div>
 
             {/* Desktop / tablet header - hidden on mobile */}
             <div className="hidden md:flex items-end gap-6 mt-10 md:-mt-20 mb-4 relative z-10">
-              <div className="w-28 h-28 mt-10 md:w-40 md:h-40 rounded-full border-2 md:border-4 border-background bg-blue-500 flex items-center justify-center text-4xl md:text-6xl font-bold text-primary-foreground shadow-xl">
-                {personalInfo.name.charAt(0)}
-              </div>
+              {personalInfo.avatar ? (
+                <img
+                  src={avatarSrc}
+                  alt={`${personalInfo.name} avatar`}
+                  className="w-28 h-28 mt-10 md:w-40 md:h-40 rounded-full border-2 md:border-4 border-background object-cover shadow-xl"
+                />
+              ) : (
+                <div className="w-28 h-28 mt-10 md:w-40 md:h-40 rounded-full border-2 md:border-4 border-background bg-blue-500 flex items-center justify-center text-4xl md:text-6xl font-bold text-primary-foreground shadow-xl">
+                  {personalInfo.name.charAt(0)}
+                </div>
+              )}
               <div className="mb-4 flex-1">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
                   {personalInfo.name}

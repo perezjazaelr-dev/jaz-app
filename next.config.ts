@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'illustrious-sfogliatella-2f450e.netlify.app', // Added this hostname
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
