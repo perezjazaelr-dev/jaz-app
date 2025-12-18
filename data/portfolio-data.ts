@@ -2,7 +2,7 @@ export const personalInfo = {
   name: "Jaz Perez",
   title: "Software Developer",
   summary:
-    "Passionate developer with expertise in building scalable web applications. Focused on creating elegant solutions to complex problems while maintaining clean, maintainable code.",
+    "",
   email: "perezjazaelr.dev@gmail.com",
   github: "https://github.com/perezjazaelr-dev",
   linkedin: "https://www.linkedin.com/in/jazael-perez-7b3b4b27a/",
@@ -10,39 +10,35 @@ export const personalInfo = {
   education: "Rizal Technological University",
 }
 
+
 export const aboutMe = {
-  description: `I'm a full-stack developer with a passion for creating beautiful, performant web applications. With experience in modern JavaScript frameworks and a strong foundation in computer science, I bring technical expertise and creative problem-solving to every project.
-
-My journey in software development began with a curiosity about how things work under the hood, which led me to pursue formal education and hands-on experience in the field. Today, I specialize in building responsive, accessible, and user-friendly applications that solve real-world problems.
-
-I believe in writing clean, maintainable code and staying current with industry best practices. When I'm not coding, you can find me contributing to open-source projects, learning new technologies, or sharing knowledge with the developer community.`,
+  description: `I’m a full-stack developer passionate about building clean, performant, and user-friendly web applications. I specialize in modern JavaScript frameworks and focus on writing maintainable code that solves real-world problems. Outside of coding, I enjoy learning new technologies, contributing to open source, and sharing knowledge with the developer community.`,
   values: ["Clean Code", "User-Centered Design", "Continuous Learning", "Collaboration"],
 }
 
 export const techStack = {
   frontend: [
-    { name: "React", icon: "⚛️" },
     { name: "Next.js", icon: "▲" },
-    { name: "TypeScript", icon: "🔷" },
-    { name: "Tailwind CSS", icon: "🎨" },
+    { name: "React", icon: "⚛️" },
+    { name: "HTML", icon: "🌐" },
+    { name: "CSS", icon: "🎨" },
     { name: "Framer Motion", icon: "✨" },
   ],
   backend: [
     { name: "Node.js", icon: "🟢" },
-    { name: "Express", icon: "🚂" },
     { name: "Python", icon: "🐍" },
-    { name: "REST APIs", icon: "🔌" },
+    { name: "Laravel", icon: "🏗️" },
   ],
   databases: [
-    { name: "PostgreSQL", icon: "🐘" },
-    { name: "MongoDB", icon: "🍃" },
-    { name: "Redis", icon: "🔴" },
+    { name: "Supabase", icon: "⚡" },
+    { name: "MySQL", icon: "🐬" },
   ],
   tools: [
     { name: "Git", icon: "📦" },
-    { name: "Docker", icon: "🐳" },
     { name: "VS Code", icon: "💻" },
     { name: "Figma", icon: "🎨" },
+    { name: "Vite", icon: "🚀" },
+    { name: "TypeScript", icon: "🔷" },
   ],
 }
 
