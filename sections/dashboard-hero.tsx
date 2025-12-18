@@ -2,7 +2,7 @@
 
 import type React from "react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -31,6 +31,7 @@ import {
   FolderGit2,
   ArrowRight,
   MapPin,
+  ShieldCheck,
 } from "lucide-react";
 import { GitHubCalendar } from "react-github-calendar";
 
@@ -49,6 +50,22 @@ export function DashboardHero() {
   fourMonthsAgo.setMonth(fourMonthsAgo.getMonth() - 4);
   fourMonthsAgo.setHours(0, 0, 0, 0);
 
+  // Responsive calendar block size (smaller blocks on narrow screens)
+  const [calendarBlockSize, setCalendarBlockSize] = useState(12);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 420) setCalendarBlockSize(6);
+      else if (w < 640) setCalendarBlockSize(8);
+      else setCalendarBlockSize(12);
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
@@ -63,83 +80,109 @@ export function DashboardHero() {
       <div className="max-w-300 mx-auto px-4 py-6 space-y-4">
         {/* Main Profile Card */}
         <Card className="overflow-hidden relative">
-  {/* Profile Content placed FIRST to be behind */}
-  <div className="pt-48 px-6 pb-6"> 
-    {/* pt-48 matches the banner height to push text down, but the div itself starts at the top */}
-    
-    {/* Avatar overlapping banner */}
-    <div className="flex items-end gap-6 -mt-10 mb-4 relative z-10">
-      <div className="w-40 h-40 rounded-full border-4 border-background bg-blue-500 flex items-center justify-center text-6xl font-bold text-primary-foreground shadow-xl">
-        {personalInfo.name.charAt(0)}
-      </div>
-      <div className="mb-4 flex-1">
-        <h1 className="text-3xl font-bold">{personalInfo.name}</h1>
-        <p className="text-xl text-muted-foreground">
-          {personalInfo.title}
-        </p>
-        <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-          <MapPin className="w-4 h-4" />
-          San Francisco, CA
-        </p>
-      </div>
-      <div className="mb-4 flex gap-2">
-        <Button asChild>
-          <a href={`mailto:${personalInfo.email}`}>
-            <Mail className="w-4 h-4 mr-2" />
-            Contact
-          </a>
-        </Button>
-        <Button asChild variant="outline">
-          <a href={personalInfo.resumeUrl} download>
-            <Download className="w-4 h-4 mr-2" />
-            Resume
-          </a>
-        </Button>
-      </div>
-    </div>
+          {/* Profile Content placed FIRST to be behind */}
+<div className="pt-20 md:pt-48 px-6 pb-6"> 
+    {/* pt-20 on small screens, pt-48 on larger to match banner height - reduced so header can overlap */}
 
-    {/* Bio and Social Links */}
-    <div className="space-y-4">
-      <p className="text-base max-w-3xl">{personalInfo.summary}</p>
-      <div className="flex gap-2">
-        <Button asChild variant="ghost" size="sm">
-          <a
-            href={personalInfo.github}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github className="w-4 h-4 mr-2" />
-            GitHub
-          </a>
-        </Button>
-        <Button asChild variant="ghost" size="sm">
-          <a
-            href={personalInfo.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Linkedin className="w-4 h-4 mr-2" />
-            LinkedIn
-          </a>
-        </Button>
-      </div>
-    </div>
-  </div>
+            {/* Mobile compact header (LinkedIn-like) - visible only on small screens */}
+            <div className="md:hidden bg-card/80 rounded-lg p-3 mt-10 mb-4 relative z-20">
+              <div className="flex items-center gap-3">
+                <div className="w-16 h-16 rounded-full border-2 border-background bg-blue-500 flex items-center justify-center text-2xl font-bold text-primary-foreground">
+                  {personalInfo.name.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-lg font-semibold truncate">{personalInfo.name}</h1>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-dashed text-xs text-primary">
+                      <ShieldCheck className="w-3 h-3" />
+                      <span className="hidden sm:inline">Add verification badge</span>
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground truncate">{personalInfo.title}</p>
+                  {personalInfo.education && (
+                    <p className="text-sm text-muted-foreground mt-1 truncate">{personalInfo.education}</p>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-1">Mandaluyong City, Metromanila <a href={`mailto:${personalInfo.email}`} className="underline">Contact info</a></p>
+                </div>
+              </div>
 
-  {/* Banner placed LAST with absolute positioning to sit ON TOP of the background part of the content */}
-  <div className="h-48 absolute top-0 left-0 right-0 z-0">
-    <div
-      className="absolute inset-0 bg-cover bg-center"
-      style={{ backgroundImage: `url('/bg-banner.jpg')` }}
-      role="img"
-      aria-label="Profile banner"
-    />
-  </div>
-</Card>
+            </div>
 
-        <div className="grid grid-cols-12 gap-4">
+            {/* Desktop / tablet header - hidden on mobile */}
+            <div className="hidden md:flex items-end gap-6 mt-10 md:-mt-20 mb-4 relative z-10">
+              <div className="w-28 h-28 mt-10 md:w-40 md:h-40 rounded-full border-2 md:border-4 border-background bg-blue-500 flex items-center justify-center text-4xl md:text-6xl font-bold text-primary-foreground shadow-xl">
+                {personalInfo.name.charAt(0)}
+              </div>
+              <div className="mb-4 flex-1">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+                  {personalInfo.name}
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground">
+                  {personalInfo.title}
+                </p>
+                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                  <MapPin className="w-4 h-4" />
+                  Mandaluyong City, Metromanila
+                </p>
+              </div>
+              <div className="mb-4 flex flex-col sm:flex-row sm:items-center gap-2">
+                <Button asChild className="w-full sm:w-auto">
+                  <a href={`mailto:${personalInfo.email}`}>
+                    <Mail className="w-4 h-4 mr-2" />
+                    Contact
+                  </a>
+                </Button>
+                <Button asChild variant="outline" className="w-full sm:w-auto">
+                  <a href={personalInfo.resumeUrl} download>
+                    <Download className="w-4 h-4 mr-2" />
+                    Resume
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            {/* Bio and Social Links */}
+            <div className="space-y-4">
+              <p className="text-base max-w-3xl">{personalInfo.summary}</p>
+              <div className="flex gap-2">
+                <Button asChild variant="ghost" size="sm">
+                  <a
+                    href={personalInfo.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Github className="w-4 h-4 mr-2" />
+                    GitHub
+                  </a>
+                </Button>
+                <Button asChild variant="ghost" size="sm">
+                  <a
+                    href={personalInfo.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Linkedin className="w-4 h-4 mr-2" />
+                    LinkedIn
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Banner placed LAST with absolute positioning to sit ON TOP of the background part of the content */}
+          <div className="h-48 absolute top-0 left-0 right-0 z-0">
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('/bg-banner.jpg')` }}
+              role="img"
+              aria-label="Profile banner"
+            />
+          </div>
+        </Card>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           {/* Main Content Column */}
-          <div className="col-span-8 space-y-4">
+          <div className="md:col-span-8 col-span-1 space-y-4">
             {/* About Section */}
             <Card className="p-6 space-y-4">
               <h2 className="text-xl font-bold">About</h2>
@@ -174,17 +217,20 @@ export function DashboardHero() {
                 {projects.map((project) => (
                   <Card
                     key={project.id}
-                    className="p-4 hover:shadow-lg transition-shadow"
+                    className="p-4 hover:shadow-lg transition-shadow overflow-hidden"
                   >
-                    <div className="flex gap-4">
-                      <img
-                        src={project.imageUrl || "/placeholder.svg"}
-                        alt={project.title}
-                        className="w-32 h-32 object-cover rounded-lg shrink-0"
-                      />
-                      <div className="flex-1 space-y-2">
+                    <div className="flex flex-col md:flex-row gap-4 items-start">
+                      <div className="w-full md:w-32 h-48 md:h-32 shrink-0 relative">
+                        <img
+                          src={project.imageUrl || "/placeholder.svg"}
+                          alt={project.title}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      </div>
+
+                      <div className="flex-1 space-y-2 min-w-0">
                         <h3 className="font-bold text-lg">{project.title}</h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground truncate">
                           {project.description}
                         </p>
                         <div className="flex flex-wrap gap-1">
@@ -270,7 +316,7 @@ export function DashboardHero() {
           </div>
 
           {/* Sidebar Column */}
-          <div className="col-span-4 space-y-4">
+          <div className="md:col-span-4 col-span-1 space-y-4">
             {/* GitHub Stats */}
             <Card className="p-5 space-y-4">
               <div className="flex items-center gap-2">
@@ -289,13 +335,29 @@ export function DashboardHero() {
                       <div className="calendar-fit w-full max-w-full">
                         <GitHubCalendar
                           username={githubUsername}
-                          blockSize={12}
+                          blockSize={calendarBlockSize}
                           blockMargin={4}
                           fontSize={14}
-                          transformData={(data: any[]) => data.filter(d => new Date(d.date) >= fourMonthsAgo)}
+                          transformData={(data: any[]) =>
+                            data.filter(
+                              (d) => new Date(d.date) >= fourMonthsAgo
+                            )
+                          }
                           theme={{
-                            light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
-                            dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+                            light: [
+                              "#ebedf0",
+                              "#9be9a8",
+                              "#40c463",
+                              "#30a14e",
+                              "#216e39",
+                            ],
+                            dark: [
+                              "#161b22",
+                              "#0e4429",
+                              "#006d32",
+                              "#26a641",
+                              "#39d353",
+                            ],
                           }}
                         />
                       </div>

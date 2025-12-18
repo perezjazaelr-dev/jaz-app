@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -45,9 +46,13 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    const MotionComp = motion(Comp as any)
 
     return (
-      <Comp
+      <MotionComp
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.975 }}
+        transition={{ duration: 0.12 }}
         data-slot="button"
         data-variant={variant}
         data-size={size}
