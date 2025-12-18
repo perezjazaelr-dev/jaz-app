@@ -11,8 +11,9 @@ import { Footer } from "@/components/footer"
 
 export function AllSection() {
   return (
-    <div className="space-y-12">
-        <Navigation />
+    <div className="flex flex-col w-full">
+      <Navigation />
+      {/* Sections are stacked without gaps to allow backgrounds to merge seamlessly */}
       <AboutSection />
       <TechStackSection />
       <ProjectsSection />

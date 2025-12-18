@@ -5,7 +5,12 @@ import { aboutMe } from "@/data/portfolio-data"
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-20 px-4 bg-muted/30 scroll-mt-20 md:scroll-mt-24">
+    <section 
+      id="about" 
+      // specific padding-top to account for navbar on initial load if it's the first section
+      // scroll-mt offsets the scroll position so the title isn't hidden by the navbar
+      className="py-24 px-4 bg-muted/30 scroll-mt-20"
+    >
       <div className="container mx-auto max-w-4xl">
         <div className="space-y-8">
           <div className="text-center space-y-3">
@@ -13,7 +18,7 @@ export function AboutSection() {
             <p className="text-muted-foreground">Get to know me better</p>
           </div>
 
-          <Card className="border-2">
+          <Card className="border-2 shadow-sm">
             <CardContent className="p-6 md:p-8">
               <div className="space-y-6">
                 <div className="prose prose-lg dark:prose-invert max-w-none">
@@ -30,7 +35,7 @@ export function AboutSection() {
                     {aboutMe.values.map((value, index) => (
                       <div
                         key={index}
-                        className="bg-primary/10 text-primary rounded-lg px-4 py-3 text-center text-sm font-medium"
+                        className="bg-primary/10 text-primary rounded-lg px-4 py-3 text-center text-sm font-medium hover:bg-primary/20 transition-colors"
                       >
                         {value}
                       </div>

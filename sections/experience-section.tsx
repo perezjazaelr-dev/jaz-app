@@ -6,9 +6,9 @@ import { experience } from "@/data/portfolio-data"
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="py-20 px-4 scroll-mt-20 md:scroll-mt-24">
+    <section id="experience" className="py-24 px-4 scroll-mt-20">
       <div className="container mx-auto max-w-4xl">
-        <div className="space-y-8">
+        <div className="space-y-12">
           <div className="text-center space-y-3">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Experience & Education</h2>
             <p className="text-muted-foreground">My professional journey</p>
@@ -32,25 +32,25 @@ export function ExperienceSection() {
                   >
                     {/* Timeline dot */}
                     <div
-                      className={`absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 border-background z-10 md:-ml-2 ${
+                      className={`absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 border-background z-10 md:-ml-2 shadow-sm ${
                         isWork ? "bg-primary" : "bg-accent"
                       }`}
                     />
 
                     {/* Content card */}
                     <div className={`flex-1 ml-20 md:ml-0 ${isLeft ? "md:pr-12" : "md:pl-12"}`}>
-                      <Card className="border-2">
+                      <Card className="border-2 hover:border-primary/40 transition-colors">
                         <CardContent className="p-6">
                           <div className="flex items-start gap-4">
                             <div
-                              className={`rounded-lg p-3 ${
+                              className={`rounded-lg p-3 shrink-0 ${
                                 isWork ? "bg-primary/10 text-primary" : "bg-accent/10 text-accent"
                               }`}
                             >
                               {isWork ? <Briefcase className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
                             </div>
 
-                            <div className="flex-1 space-y-3">
+                            <div className="flex-1 space-y-2">
                               <div>
                                 <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
                                 <p className="text-sm font-medium text-primary">{item.organization}</p>
@@ -66,7 +66,7 @@ export function ExperienceSection() {
                                 </span>
                               </div>
 
-                              <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                              <p className="text-sm text-muted-foreground leading-relaxed pt-2">{item.description}</p>
                             </div>
                           </div>
                         </CardContent>
