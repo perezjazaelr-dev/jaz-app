@@ -43,13 +43,17 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+// FIX: Define these OUTSIDE the component to prevent "created during render" error
+const MotionButton = motion.button
+const MotionSlot = motion(Slot)
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    const MotionComp = motion(Comp as any)
+    // Select the correct component
+    const Comp = asChild ? MotionSlot : MotionButton
 
     return (
-      <MotionComp
+      <Comp
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.975 }}
         transition={{ duration: 0.12 }}
@@ -57,8 +61,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-variant={variant}
         data-size={size}
         className={cn(buttonVariants({ variant, size, className }))}
+        // @ts-expect-error - ref types between framer-motion and react can be slightly incompatible
         ref={ref}
-        suppressHydrationWarning // Prevents errors from browser-injected attributes
         {...props}
       />
     )

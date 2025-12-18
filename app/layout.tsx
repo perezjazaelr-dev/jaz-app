@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans antialiased`}>
+      <body className={`font-sans antialiased ${_geist.className} ${_geistMono.className}`}>
         <ThemeProvider>
           {/* Wrap everything in ToastProvider */}
           <ToastProvider>

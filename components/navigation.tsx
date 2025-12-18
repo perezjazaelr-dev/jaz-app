@@ -43,9 +43,6 @@ export function Navigation() {
   const scrollToElement = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      // scrollIntoView with "smooth" behavior uses the browser's native smooth scrolling.
-      // It will automatically respect the "scroll-mt-20" classes we added to your sections,
-      // ensuring the title is not hidden behind the navbar.
       element.scrollIntoView({ behavior: "smooth" })
     }
   }
@@ -57,7 +54,6 @@ export function Navigation() {
     if (href === "/" || href === "#" || href === "#dashboard") {
       if (pathname !== SECTIONS_PATH) {
         await router.push(SECTIONS_PATH)
-        // Tiny delay to allow React to render the new page before scrolling
         setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 100)
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" })
@@ -66,20 +62,17 @@ export function Navigation() {
     }
 
     // 2. Extract the target Section ID from the href
-    // e.g. "/about" -> "about", "#about" -> "about"
-    let targetId = href.replace(/^\//, "").replace("#", "")
+    // FIX: Changed 'let' to 'const' to satisfy linter
+    const targetId = href.replace(/^\//, "").replace("#", "")
 
     if (!targetId) return
 
     // 3. Navigate and Scroll
     if (pathname === SECTIONS_PATH) {
-      // If we are already on the home page, just scroll to the section
       scrollToElement(targetId)
     } else {
-      // If we are on a different page, go to home first
       await router.push(SECTIONS_PATH)
       
-      // Poll for the section to exist in the DOM, then scroll
       const checkExist = setInterval(() => {
         const element = document.getElementById(targetId)
         if (element) {
@@ -88,7 +81,6 @@ export function Navigation() {
         }
       }, 100)
       
-      // Stop polling after 2 seconds to avoid infinite loops
       setTimeout(() => clearInterval(checkExist), 2000)
     }
   }
@@ -107,7 +99,8 @@ export function Navigation() {
               onClick={() => navigateToSection("/")}
               className="text-xl md:text-2xl font-bold text-foreground hover:text-primary transition-colors"
             >
-              Jaz's
+              {/* FIX: Escaped apostrophe (Jaz's -> Jaz&apos;s) */}
+              Jaz&apos;s
             </button>
           </div>
 
