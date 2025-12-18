@@ -47,7 +47,7 @@ export default function ScrollToSection({ id, offset = 80 }: Props) {
       // cleanup if unmounted early
       try {
         clearInterval((poll as unknown) as number)
-      } catch (e) {
+      } catch {
         // noop
       }
     }

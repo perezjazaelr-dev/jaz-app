@@ -2,6 +2,7 @@
 
 import type React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -95,16 +96,19 @@ export function DashboardHero() {
             <div className="md:hidden bg-card/80 rounded-lg p-3 mt-10 mb-4 relative z-20">
               <div className="flex items-center gap-3">
                 {personalInfo.avatar ? (
-                  <img
+                  <Image
                     src={avatarSrc}
                     alt={`${personalInfo.name} avatar`}
-                    className="w-16 h-16 rounded-full border-2 border-background object-cover scale-200"
+                    width={64}
+                    height={64}
+                    className="w-16 h-16 rounded-full border-2 border-background object-cover"
+                    priority
                   />
                 ) : (
                   <div className="w-16 h-16 rounded-full border-2 border-background bg-blue-500 flex items-center justify-center text-2xl font-bold text-primary-foreground">
                     {personalInfo.name.charAt(0)}
                   </div>
-                )}
+                )} 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <h1 className="text-lg font-semibold truncate">
@@ -141,16 +145,19 @@ export function DashboardHero() {
             {/* Desktop / tablet header - hidden on mobile */}
             <div className="hidden md:flex items-end gap-6 mt-10 md:-mt-20 mb-4 relative z-10">
               {personalInfo.avatar ? (
-                <img
+                <Image
                   src={avatarSrc}
                   alt={`${personalInfo.name} avatar`}
+                  width={160}
+                  height={160}
                   className="w-28 h-28 mt-10 md:w-40 md:h-40 rounded-full border-2 md:border-4 border-background object-cover shadow-xl"
+                  priority
                 />
               ) : (
                 <div className="w-28 h-28 mt-10 md:w-40 md:h-40 rounded-full border-2 md:border-4 border-background bg-blue-500 flex items-center justify-center text-4xl md:text-6xl font-bold text-primary-foreground shadow-xl">
                   {personalInfo.name.charAt(0)}
                 </div>
-              )}
+              )} 
               <div className="mb-4 flex-1">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
                   {personalInfo.name}
@@ -259,10 +266,12 @@ export function DashboardHero() {
                   >
                     <div className="flex flex-col md:flex-row gap-4 items-start">
                       <div className="w-full md:w-32 h-48 md:h-32 shrink-0 relative">
-                        <img
+                        <Image
                           src={project.imageUrl || "/placeholder.svg"}
                           alt={project.title}
-                          className="w-full h-full object-cover rounded-lg"
+                          fill
+                          className="object-cover rounded-lg"
+                          sizes="(max-width: 768px) 100vw, 128px"
                         />
                       </div>
 
@@ -376,7 +385,7 @@ export function DashboardHero() {
                           blockSize={calendarBlockSize}
                           blockMargin={4}
                           fontSize={14}
-                          transformData={(data: any[]) =>
+                          transformData={(data: { date: string; count: number; level: number }[]) =>
                             data.filter(
                               (d) => new Date(d.date) >= fourMonthsAgo
                             )
