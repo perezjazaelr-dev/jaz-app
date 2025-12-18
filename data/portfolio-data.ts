@@ -8,6 +8,11 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/jazael-perez-7b3b4b27a/",
   resumeUrl: "/resume.pdf",
   education: "Rizal Technological University",
+  // Avatar image path relative to public/ (add your file at public/avatar.jpg)
+  avatar: "/avatar.jpg",
+  // Optional: separate images for light and dark mode
+  avatarLight: "/avatar-white.png",
+  avatarDark: "/avatar-dark.png",
 }
 
 
@@ -29,10 +34,6 @@ export const techStack = {
     { name: "Python", icon: "🐍" },
     { name: "Laravel", icon: "🏗️" },
   ],
-  databases: [
-    { name: "Supabase", icon: "⚡" },
-    { name: "MySQL", icon: "🐬" },
-  ],
   tools: [
     { name: "Git", icon: "📦" },
     { name: "VS Code", icon: "💻" },
@@ -40,11 +41,15 @@ export const techStack = {
     { name: "Vite", icon: "🚀" },
     { name: "TypeScript", icon: "🔷" },
   ],
+  databases: [
+    { name: "Supabase", icon: "⚡" },
+    { name: "MySQL", icon: "🐬" },
+  ],
 }
 
 export const projects = [
   {
-    id: 3,
+    id: 1,
     title: "Feast 'n Delight",
     description:
       "A full-featured online store with payment processing, inventory management, and real-time order tracking.",
@@ -53,39 +58,49 @@ export const projects = [
     liveUrl: "https://feastndelightsbilaopackages.netlify.app/",
     imageUrl: "https://feastndelightsbilaopackages.netlify.app/FEAST.png",
   },
+  {
+    id: 2,
+    title: "Talkhive",
+    description:
+      "A full-featured online store with payment processing, inventory management, and real-time order tracking.",
+    techStack: ["Next.js", "Javascript", "Stripe", "PostgreSQL"],
+    githubUrl: "https://github.com/yourusername/project1",
+    liveUrl: "https://illustrious-sfogliatella-2f450e.netlify.app/#/feed",
+    imageUrl: "https://illustrious-sfogliatella-2f450e.netlify.app/assets/talkhive.png",
+  },
 ]
 
 export const experience = [
   {
     id: 1,
     type: "work",
-    title: "Senior Frontend Developer",
-    organization: "Tech Company Inc.",
-    location: "San Francisco, CA",
-    startDate: "2022",
-    endDate: "Present",
+    title: "Internship - Frontend Developer",
+    organization: "Microgenesis Business Systems",
+    location: "Mandaluyong City, Philippines",
+    startDate: "September 2025",
+    endDate: "December 2025",
     description:
-      "Led development of customer-facing web applications serving 100K+ users. Implemented modern React patterns and improved performance by 40%.",
+      "Developed and maintained user interfaces for web applications using React and Next.js, ensuring responsiveness and cross-browser compatibility.",
   },
   {
     id: 2,
     type: "work",
-    title: "Full Stack Developer",
-    organization: "StartUp XYZ",
-    location: "Remote",
-    startDate: "2020",
-    endDate: "2022",
+    title: "Internship - IT - Graphic Designer",
+    organization: "HousingInteractive Inc.",
+    location: "Makati City, Philippines",
+    startDate: "February 2025",
+    endDate: "May 2025",
     description:
-      "Built and maintained multiple web applications using MERN stack. Collaborated with designers to create responsive, accessible user interfaces.",
+      "Designed marketing materials and performed web scraping to maintain accurate property listings.",
   },
   {
     id: 3,
     type: "education",
-    title: "Bachelor of Science in Computer Science",
-    organization: "University Name",
-    location: "City, State",
-    startDate: "2016",
-    endDate: "2020",
-    description: "Graduated with honors. Focused on software engineering, algorithms, and web development.",
+    title: "Bachelor of Science in information Technology",
+    organization: "Rizal Technological University",
+    location: "Mandaluyong City, Philippines",
+    startDate: "2022",
+    endDate: "2026",
+    description: "Graduated with honors. Focused on software development, algorithms, and web development.",
   },
 ]
