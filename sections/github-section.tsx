@@ -12,7 +12,7 @@ export function GitHubSection() {
   const stats = useGitHubStats(username)
 
   return (
-    <section id="github" className="py-20 px-4 bg-muted/30">
+    <section id="github" className="py-20 px-4 bg-muted/30 scroll-mt-20 md:scroll-mt-24">
       <div className="container mx-auto max-w-4xl">
         <div className="space-y-8">
           <div className="text-center space-y-3">

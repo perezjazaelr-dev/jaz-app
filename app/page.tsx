@@ -2,12 +2,7 @@
 
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/sections/hero-section"
-import { AboutSection } from "@/sections/about-section"
-import { TechStackSection } from "@/sections/tech-stack-section"
-import { ProjectsSection } from "@/sections/projects-section"
-import { ExperienceSection } from "@/sections/experience-section"
-import { GitHubSection } from "@/sections/github-section"
-import { ContactSection } from "@/sections/contact-section"
+import { AllSection } from "@/sections/all-section"
 import { Footer } from "@/components/footer"
 import { DashboardHero } from "@/sections/dashboard-hero"
 
@@ -16,12 +11,6 @@ export default function Home() {
     <main className="min-h-screen">
       <Navigation />
       <DashboardHero />
-      <AboutSection />
-      <TechStackSection />
-      <ProjectsSection />
-      <ExperienceSection />
-      <GitHubSection />
-      <ContactSection />
       <Footer />
     </main>
   )

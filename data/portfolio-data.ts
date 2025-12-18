@@ -3,10 +3,11 @@ export const personalInfo = {
   title: "Software Developer",
   summary:
     "Passionate developer with expertise in building scalable web applications. Focused on creating elegant solutions to complex problems while maintaining clean, maintainable code.",
-  email: "your.email@example.com",
+  email: "perezjazaelr.dev@gmail.com",
   github: "https://github.com/perezjazaelr-dev",
   linkedin: "https://www.linkedin.com/in/jazael-perez-7b3b4b27a/",
   resumeUrl: "/resume.pdf",
+  education: "Rizal Technological University",
 }
 
 export const aboutMe = {
@@ -46,26 +47,6 @@ export const techStack = {
 }
 
 export const projects = [
-  {
-    id: 1,
-    title: "Feast 'n Delight",
-    description:
-      "A full-featured online store with payment processing, inventory management, and real-time order tracking.",
-    techStack: ["Next.js", "Javascript", "Stripe", "PostgreSQL"],
-    githubUrl: "https://github.com/yourusername/project1",
-    liveUrl: "https://feastndelightsbilaopackages.netlify.app/",
-    imageUrl: "https://placehold.co/600x400/png?text=Project+Image",
-  },
-  {
-    id: 2,
-    title: "Feast 'n Delight",
-    description:
-      "A full-featured online store with payment processing, inventory management, and real-time order tracking.",
-    techStack: ["Next.js", "Javascript", "Stripe", "PostgreSQL"],
-    githubUrl: "https://github.com/yourusername/project1",
-    liveUrl: "https://feastndelightsbilaopackages.netlify.app/",
-    imageUrl: "https://placehold.co/600x400/png?text=Project+Image",
-  },
   {
     id: 3,
     title: "Feast 'n Delight",
