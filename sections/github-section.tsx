@@ -4,6 +4,8 @@ import { Github, Star, GitFork, BookOpen } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { useGitHubStats } from "@/hooks/use-github-stats"
 import { personalInfo } from "@/data/portfolio-data"
+// This line below was the one you tried to run in the terminal:
+import { GitHubCalendar } from "react-github-calendar"
 
 export function GitHubSection() {
   const username = personalInfo.github.split("/").pop() || ""
@@ -17,6 +19,32 @@ export function GitHubSection() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">GitHub Activity</h2>
             <p className="text-muted-foreground">Open source contributions and public work</p>
           </div>
+
+          {/* This adds the actual Heatmap calendar */}
+          <Card className="border-2 overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center justify-center space-y-4">
+                <h3 className="text-lg font-semibold flex items-center gap-2">
+                  <Github className="h-5 w-5" />
+                  Contribution Calendar
+                </h3>
+                <div className="w-full flex justify-center overflow-hidden py-2">
+                  <div className="calendar-fit w-full max-w-full">
+                    <GitHubCalendar 
+                      username={username}
+                      blockSize={12}
+                      blockMargin={4}
+                      fontSize={14}
+                      theme={{
+                        light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+                        dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
+                      }}
+                    />
+                  </div>
+                </div> 
+              </div>
+            </CardContent>
+          </Card>
 
           {stats.loading ? (
             <Card className="border-2">
