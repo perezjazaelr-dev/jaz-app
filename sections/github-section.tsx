@@ -1,0 +1,90 @@
+"use client"
+
+import { Github, Star, GitFork, BookOpen } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { useGitHubStats } from "@/hooks/use-github-stats"
+import { personalInfo } from "@/data/portfolio-data"
+
+export function GitHubSection() {
+  const username = personalInfo.github.split("/").pop() || ""
+  const stats = useGitHubStats(username)
+
+  return (
+    <section id="github" className="py-20 px-4 bg-muted/30">
+      <div className="container mx-auto max-w-4xl">
+        <div className="space-y-8">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">GitHub Activity</h2>
+            <p className="text-muted-foreground">Open source contributions and public work</p>
+          </div>
+
+          {stats.loading ? (
+            <Card className="border-2">
+              <CardContent className="p-12">
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+                </div>
+              </CardContent>
+            </Card>
+          ) : stats.error ? (
+            <Card className="border-2">
+              <CardContent className="p-12">
+                <div className="text-center text-muted-foreground">{stats.error}</div>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="border-2">
+                <CardContent className="p-6 text-center space-y-3">
+                  <div className="w-12 h-12 mx-auto bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+                    <BookOpen className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-foreground">{stats.totalRepos}</div>
+                    <div className="text-sm text-muted-foreground">Public Repositories</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2">
+                <CardContent className="p-6 text-center space-y-3">
+                  <div className="w-12 h-12 mx-auto bg-accent/10 text-accent rounded-lg flex items-center justify-center">
+                    <Star className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-foreground">{stats.totalStars}</div>
+                    <div className="text-sm text-muted-foreground">Total Stars</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="border-2">
+                <CardContent className="p-6 text-center space-y-3">
+                  <div className="w-12 h-12 mx-auto bg-primary/10 text-primary rounded-lg flex items-center justify-center">
+                    <GitFork className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-foreground">{stats.totalForks}</div>
+                    <div className="text-sm text-muted-foreground">Total Forks</div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          <div className="text-center">
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
+            >
+              <Github className="h-5 w-5" />
+              View Full GitHub Profile
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
