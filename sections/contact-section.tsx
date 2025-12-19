@@ -57,7 +57,7 @@ export function ContactSection() {
             {/* Contact Form */}
             <Card className="border-2">
               <CardContent className="p-6">
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form suppressHydrationWarning onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
                     <Input

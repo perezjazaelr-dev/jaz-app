@@ -35,7 +35,7 @@ import {
   MapPin,
   ShieldCheck,
 } from "lucide-react";
-import { GitHubCalendar } from "react-github-calendar";
+import { GitHubCalendar, type Activity } from "react-github-calendar";
 
 export function DashboardHero() {
   const { toast } = useToast();
@@ -385,7 +385,7 @@ export function DashboardHero() {
                           blockSize={calendarBlockSize}
                           blockMargin={4}
                           fontSize={14}
-                          transformData={(data: { date: string; count: number; level: number }[]) =>
+                          transformData={(data: Activity[]) =>
                             data.filter(
                               (d) => new Date(d.date) >= fourMonthsAgo
                             )
@@ -519,7 +519,7 @@ export function DashboardHero() {
             {/* Contact Form */}
             <Card className="p-5 space-y-4">
               <h2 className="text-base font-bold">Get In Touch</h2>
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form suppressHydrationWarning onSubmit={handleSubmit} className="space-y-3">
                 <div className="space-y-1.5">
                   <Label htmlFor="name" className="text-sm">
                     Name

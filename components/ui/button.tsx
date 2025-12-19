@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -60,8 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={{ scale: 0.975 }}
         transition={{ duration: 0.12 }}
         className={cn(buttonVariants({ variant, size, className }))}
-        // @ts-expect-error - Framer Motion refs and React refs have slight type mismatches, this is safe to ignore here
-        ref={ref}
+        ref={ref as unknown as React.Ref<HTMLButtonElement>}
         {...props}
       />
     )
