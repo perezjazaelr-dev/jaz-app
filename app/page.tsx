@@ -1,5 +1,3 @@
-"use client"
-
 import { Navigation } from "@/components/navigation"
 import { DashboardHero } from "@/sections/dashboard-hero"
 import { AboutSection } from "@/sections/about-section"
