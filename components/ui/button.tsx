@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion } from "framer-motion"
+import { motion, type HTMLMotionProps } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -37,19 +37,23 @@ const buttonVariants = cva(
   }
 )
 
+// FIX: Omit conflicting drag handlers from the standard HTML attributes
+// and merge with VariantProps.
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart"
+    >,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
-// FIX: Define these OUTSIDE the component to prevent "created during render" error
+// Define motion components outside render to avoid recreation
 const MotionButton = motion.button
 const MotionSlot = motion(Slot)
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    // Select the correct component
     const Comp = asChild ? MotionSlot : MotionButton
 
     return (
@@ -61,7 +65,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-variant={variant}
         data-size={size}
         className={cn(buttonVariants({ variant, size, className }))}
-        // @ts-expect-error - ref types between framer-motion and react can be slightly incompatible
+        // @ts-expect-error - Framer Motion refs and React refs have slight type mismatches
         ref={ref}
         {...props}
       />
