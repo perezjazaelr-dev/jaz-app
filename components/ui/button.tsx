@@ -37,18 +37,16 @@ const buttonVariants = cva(
   }
 )
 
-// FIX: Omit conflicting drag handlers from the standard HTML attributes
-// and merge with VariantProps.
+// FIX: Use HTMLMotionProps<"button">. 
+// This type ALREADY includes all standard HTML attributes BUT overrides 
+// the conflicting ones (onDrag, etc) with the correct Framer Motion types.
 export interface ButtonProps
-  extends Omit<
-      React.ButtonHTMLAttributes<HTMLButtonElement>,
-      "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart"
-    >,
+  extends HTMLMotionProps<"button">,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
-// Define motion components outside render to avoid recreation
+// Define motion components outside to prevent "created during render" errors
 const MotionButton = motion.button
 const MotionSlot = motion(Slot)
 
@@ -61,11 +59,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.975 }}
         transition={{ duration: 0.12 }}
-        data-slot="button"
-        data-variant={variant}
-        data-size={size}
         className={cn(buttonVariants({ variant, size, className }))}
-        // @ts-expect-error - Framer Motion refs and React refs have slight type mismatches
+        // @ts-expect-error - Framer Motion refs and React refs have slight type mismatches, this is safe to ignore here
         ref={ref}
         {...props}
       />
