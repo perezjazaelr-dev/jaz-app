@@ -62,13 +62,23 @@ export const projects = [
     id: 2,
     title: "Talkhive",
     description:
-      "A full-featured online store with payment processing, inventory management, and real-time order tracking.",
+      "A real-time communication platform designed for seamless social interaction and community engagement.",
     techStack: ["Next.js", "Javascript", "Stripe", "PostgreSQL"],
-    githubUrl: "https://github.com/yourusername/project1",
+    githubUrl: "https://github.com/yourusername/project2",
     liveUrl: "https://illustrious-sfogliatella-2f450e.netlify.app/#/feed",
     imageUrl: "https://illustrious-sfogliatella-2f450e.netlify.app/assets/talkhive.png",
   },
-]
+  {
+    id: 3,
+    title: "NAMAYAN DIGITAL REGISTRY",
+    description:
+      "A scalable administrative system utilizing MVC architecture and role-based authentication to manage secure data and community records.",
+    techStack: ["PHP", "Laravel 10", "MySQL", "Tailwind CSS", "Blade"],
+    githubUrl: "https://github.com/yourusername/project3",
+    liveUrl: "https://tatak1namayan.com",
+    imageUrl: "https://tatak1namayan.com/images/logo-namayan.png",
+  },
+];
 
 export const experience = [
   {
