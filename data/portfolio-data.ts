@@ -68,7 +68,17 @@ export const projects = [
     liveUrl: "https://illustrious-sfogliatella-2f450e.netlify.app/#/feed",
     imageUrl: "https://illustrious-sfogliatella-2f450e.netlify.app/assets/talkhive.png",
   },
-]
+  {
+    id: 3,
+    title: "NAMAYAN DIGITAL REGISTRY",
+    description:
+      "A scalable administrative system utilizing MVC architecture and role-based authentication to manage secure data and community records.",
+    techStack: ["PHP", "Laravel 10", "MySQL", "Tailwind CSS", "Blade"],
+    githubUrl: "https://github.com/yourusername/project3",
+    liveUrl: "https://tatak1namayan.com",
+    imageUrl: "https://tatak1namayan.com/images/logo-namayan.png",
+  },
+];
 
 export const experience = [
   {
