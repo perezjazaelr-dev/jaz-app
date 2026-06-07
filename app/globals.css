@@ -177,3 +177,74 @@
 .calendar-fit .react-activity-calendar .react-activity-calendar-graph > div {
   overflow: hidden !important;
 }
+
+/* Custom premium design system additions */
+.glass-card {
+  background: color-mix(in oklch, var(--card) 70%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .glass-card {
+  background: color-mix(in oklch, var(--card) 60%, transparent);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  border: 1px solid color-mix(in oklch, var(--border) 20%, transparent);
+}
+
+.glass-card:hover {
+  border-color: color-mix(in oklch, var(--primary) 40%, transparent);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-card:hover {
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Ambient glow blobs */
+.glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  transition: all 0.8s ease;
+}
+
+.dark .glow-blob {
+  opacity: 0.2;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Premium gradient text utilities */
+.gradient-text {
+  background: linear-gradient(135deg, oklch(0.55 0.18 250) 0%, oklch(0.6 0.15 310) 50%, oklch(0.65 0.12 20) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, oklch(0.8 0.12 250) 0%, oklch(0.75 0.15 310) 50%, oklch(0.85 0.08 20) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+

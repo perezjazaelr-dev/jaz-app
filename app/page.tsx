@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/navigation"
-import { DashboardHero } from "@/sections/dashboard-hero"
+import { HeroSection } from "@/sections/hero-section"
 import { AboutSection } from "@/sections/about-section"
 import { TechStackSection } from "@/sections/tech-stack-section"
 import { ProjectsSection } from "@/sections/projects-section"
@@ -17,7 +17,7 @@ export default function Home() {
       <Navigation />
       
       {/* Sections stacked vertically */}
-      <DashboardHero />
+      <HeroSection />
       <AboutSection />
       <TechStackSection />
       <ProjectsSection />

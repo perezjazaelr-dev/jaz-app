@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/context/theme-context"
 import { ToastProvider } from "@/components/ui/toast"
 import { Toast } from "@/components/ui/toast"
 import HydrationLoading from "@/components/hydration-loading"
+import { StarsBackground } from "@/components/stars-background"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -30,6 +31,7 @@ export default function RootLayout({
           {/* Wrap everything in ToastProvider */}
           <ToastProvider>
             <HydrationLoading />
+            <StarsBackground />
             {children}
             {/* Toaster renders the actual popups */}
             <Toast />
